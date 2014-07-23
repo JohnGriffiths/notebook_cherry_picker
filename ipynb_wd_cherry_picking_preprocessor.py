@@ -25,7 +25,8 @@ class CherryPickingPreprocessor(Preprocessor):
     def validate_cell_tags(self, cell):
         if 'cell_tags' in cell['metadata']:
             return self.eval_tag_expression(cell['metadata']['cell_tags'], self.expression)
-        return False
+        else: 
+            return False
 
     def eval_tag_expression(self, tags, expression):
         
