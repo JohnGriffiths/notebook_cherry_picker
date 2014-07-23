@@ -33,12 +33,18 @@ class CherryPickingPreprocessor(Preprocessor):
         # Create the tags as True booleans.  This allows us to use python 
         # expressions.
         for tag in tags:
-            exec tag + " = True"
+            tagtag = tags[tag]
+            exec tag + " = tagtag"
 
         # Attempt to evaluate expression.  If a variable is undefined, define
         # the variable as false.
-        while True:
-            try:
-                return eval(expression)
-            except NameError as Error:
-                exec str(Error).split("'")[1] + " = False"
+        try:
+          res = eval(expression)
+        except NameError as Error:
+          exec str(Error).split("'")[1] + " = False"
+          res = eval(expression)
+        return res
+
+
+
+
