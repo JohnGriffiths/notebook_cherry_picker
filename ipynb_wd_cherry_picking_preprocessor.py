@@ -10,12 +10,12 @@ class CherryPickingPreprocessor(Preprocessor):
 
         # Loop through each cell, remove cells that dont match the query.
         for worksheet in nb.worksheets:
-            remove_indicies = []
+            remove_indices = []
             for index, cell in enumerate(worksheet.cells):
                 if not self.validate_cell_tags(cell):
-                    remove_indicies.append(index)
+                    remove_indices.append(index)
 
-            for index in remove_indicies[::-1]:
+            for index in remove_indices[::-1]:
                 del worksheet.cells[index]
 
         resources['notebook_copy'] = deepcopy(nb)
