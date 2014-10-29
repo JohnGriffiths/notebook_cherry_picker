@@ -26,8 +26,8 @@ class CherryPickingPreprocessor(Preprocessor):
         if 'cell_tags' in cell['metadata']:
             return self.eval_tag_expression(cell['metadata']['cell_tags'], self.expression)
         else: 
-            return True
-
+          return False # return True
+       
     def eval_tag_expression(self, tags, expression):
         
         # Create the tags as True booleans.  This allows us to use python 
