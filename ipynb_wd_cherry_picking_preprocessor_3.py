@@ -4,7 +4,7 @@ from IPython.utils.traitlets import Unicode
 
 class CherryPickingPreprocessor(Preprocessor):
 
-    expression = Unicode('True', config=True, help="Cell tag expression.")
+    expression = Unicode('True', config=True, help="kepp tags expression.")
 
     def preprocess(self, nb, resources):
 
@@ -12,8 +12,20 @@ class CherryPickingPreprocessor(Preprocessor):
         for worksheet in nb.worksheets:
             remove_indices = []
             for index, cell in enumerate(worksheet.cells):
-                if not self.validate_cell_tags(cell):
-                    remove_indices.append(index)
+              cm = cell['metadata']
+              html,pdf,slides = False,False,False
+              if 'cell_tags' in cm:
+                if 'html' in cm['cell_tags']: html = cm['cell_tags']['html']
+                if 'pdf' in cm['cell_tags']: pdf = cm['cell_tags']['pdf']
+                if 'slides' in cm['cell_tags']: slides=cm['cell_tags']['slides']
+              #print 'slides = %s' %slides
+              #print 'pdf = %s' %pdf
+              #print 'html = %s' %html
+              #print 'expression = %s' %self.expression
+              #test = eval(self.expression)
+              #print 'test = %s' %test 
+              if eval(self.expression) == False:
+                remove_indices.append(index)
 
             for index in remove_indices[::-1]:
                 del worksheet.cells[index]
@@ -21,7 +33,7 @@ class CherryPickingPreprocessor(Preprocessor):
         resources['notebook_copy'] = deepcopy(nb)
         return nb, resources
 
-
+"""
     def validate_cell_tags(self, cell):
         if 'cell_tags' in cell['metadata']:
             return self.eval_tag_expression(cell['metadata']['cell_tags'], self.expression)
@@ -48,4 +60,4 @@ class CherryPickingPreprocessor(Preprocessor):
 
 
 
-
+"""
